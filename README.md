@@ -139,15 +139,6 @@ database:
   pool-size: 10
 ```
 
-### Update Checker
-
-```yaml
-update-checker:
-  enabled: true
-  github-url: "https://github.com/yourusername/ShieldAuth"
-  github-api-url: "https://api.github.com/repos/yourusername/ShieldAuth/releases/latest"
-```
-
 ### Security
 
 ```yaml
@@ -469,3 +460,4 @@ All Rights Reserved © 2026
 <p align="center">
   <b>ShieldAuth</b> - Secure your Minecraft server with confidence
 </p>
+
