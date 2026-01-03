@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/API-Spigot%20%7C%20Paper-blue" alt="API">
 </p>
 
-# 🛡️ ShieldAuth
+# ShieldAuth
 
 **Advanced authentication plugin for Minecraft servers** with multi-layer security, GUI-based PIN system, temporary IP blocking, configurable timeouts, update checker and extensive customization options.
 
@@ -460,4 +460,5 @@ All Rights Reserved © 2026
 <p align="center">
   <b>ShieldAuth</b> - Secure your Minecraft server with confidence
 </p>
+
 
