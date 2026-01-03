@@ -409,7 +409,7 @@ Failed Login/PIN Attempt
 ### Commands
 
 ```bash
-git clone https://github.com/yourusername/ShieldAuth.git
+git clone https://github.com/decentholograms/ShieldAuth.git
 cd ShieldAuth
 mvn clean package
 ```
@@ -460,5 +460,6 @@ All Rights Reserved © 2026
 <p align="center">
   <b>ShieldAuth</b> - Secure your Minecraft server with confidence
 </p>
+
 
 
