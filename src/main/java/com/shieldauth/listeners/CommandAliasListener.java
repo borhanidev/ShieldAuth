@@ -23,11 +23,12 @@ public class CommandAliasListener implements Listener {
 
     public void loadAliases() {
         aliasMap.clear();
-        
+
         Map<String, List<String>> aliasConfig = new HashMap<>();
-        
+
         if (plugin.getConfigManager().getConfig().contains("aliases")) {
-            for (String command : plugin.getConfigManager().getConfig().getConfigurationSection("aliases").getKeys(false)) {
+            for (String command : plugin.getConfigManager().getConfig().getConfigurationSection("aliases")
+                    .getKeys(false)) {
                 List<String> aliases = plugin.getConfigManager().getConfig().getStringList("aliases." + command);
                 for (String alias : aliases) {
                     aliasMap.put(alias.toLowerCase(), command.toLowerCase());

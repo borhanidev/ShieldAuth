@@ -20,12 +20,14 @@ public class PlayerCommandListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
+        String message = event.getMessage().toLowerCase();
+        String[] args = message.split(" ");
+        String command = args[0];
 
         if (plugin.isFullyAuthenticated(player)) {
             return;
         }
 
-        String command = event.getMessage().toLowerCase().split(" ")[0];
         List<String> allowedCommands = plugin.getConfigManager().getConfig().getStringList("security.allowed-commands");
 
         for (String allowed : allowedCommands) {

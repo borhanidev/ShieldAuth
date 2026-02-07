@@ -59,7 +59,7 @@ aliases:
     - "sh"
     - "auth"
     - "shield"
-  
+
 security:
   encryption: "ARGON2"
   password-min-length: 6
@@ -80,21 +80,21 @@ security:
   register-timeout: 60
   login-timeout: 60
   pin-timeout: 30
-  
+
   # Commands allowed before authentication
   allowed-commands:
     - "/login"
     - "/register"
     - "/l"
     - "/reg"
-  
+
 discord:
   enabled: false
   webhook-url: ""
   embed-color-red: 255
   embed-color-green: 0
   embed-color-blue: 0
-  
+
 email:
   enabled: false
   smtp-host: "smtp.gmail.com"
@@ -103,7 +103,7 @@ email:
   smtp-password: ""
   smtp-ssl: true
   from-address: "noreply@shieldauth.com"
-  
+
 titles:
   register:
     title: "&c&lShieldAuth"
@@ -129,22 +129,22 @@ titles:
     fade-in: 10
     stay: 40
     fade-out: 20
-    
+
 messages:
   plugin-enabled: "&8[&c&lShieldAuth&8] &aPlugin enabled successfully!"
   plugin-disabled: "&8[&c&lShieldAuth&8] &cPlugin disabled!"
   prefix: "&8[&c&lShieldAuth&8] "
-  
+
   update-available: "&8[&c&lShieldAuth&8] &eNew version available! &7Current: &c{current} &7Latest: &a{latest}\\n&8[&c&lShieldAuth&8] &7Download: &b{url}"
   session-restored: "&aSession restored! Welcome back."
-  
+
   register-success: "&aYou have been registered successfully!"
   register-already: "&cYou are already registered!"
   register-password-mismatch: "&cPasswords do not match!"
   register-usage: "&cUsage: /register <password> <confirm password>"
   register-password-too-short: "&cPassword must be at least {min} characters!"
   register-password-too-long: "&cPassword cannot exceed {max} characters!"
-  
+
   login-success: "&aYou have logged in successfully!"
   login-success-pin-required: "&aPassword correct! Now enter your PIN."
   login-already: "&cYou are already logged in!"
@@ -152,35 +152,35 @@ messages:
   login-wrong-password: "&cIncorrect password! Attempts remaining: {attempts}"
   login-usage: "&cUsage: /login <password>"
   login-locked: "&cToo many failed attempts! Account locked for {time} seconds."
-  
+
   ip-locked: "&cYour IP has been temporarily blocked for {time} seconds due to too many failed attempts."
   ip-locked-join: "&c&lWarning: &cYour IP is currently blocked for {time} more seconds due to suspicious activity."
   ip-pin-locked: "&cYour IP has been blocked from PIN attempts for {time} seconds."
   ip-pin-locked-join: "&c&lWarning: &cYour IP is blocked from PIN attempts for {time} more seconds."
   account-locked-join: "&c&lWarning: &cYour account login is locked for {time} more seconds."
   pin-locked-join: "&c&lWarning: &cYour PIN access is locked for {time} more seconds."
-  
+
   block-ip-locked: "&c&lTemporarily Blocked\n\n&7Your IP has been blocked for &c{time}&7.\n&7Reason: &cToo many failed login attempts.\n\n&7Please wait and try again later."
   block-ip-pin-locked: "&c&lTemporarily Blocked\n\n&7Your IP has been blocked for &c{time}&7.\n&7Reason: &cToo many failed PIN attempts.\n\n&7Please wait and try again later."
   block-ip-login-denied: "&c&lTemporarily Blocked\n\n&7Your IP is temporarily blocked for &c{time}&7.\n&7Reason: &cToo many failed login attempts.\n\n&7Please wait before trying again."
   block-ip-pin-denied: "&c&lTemporarily Blocked\n\n&7Your IP is temporarily blocked for &c{time}&7.\n&7Reason: &cToo many failed PIN attempts.\n\n&7Please wait before trying again."
-  
+
   kick-register-timeout: "&c&lConnection Timeout\n\n&7You took too long to register.\n&7Time limit: &c{time}&7.\n\n&7Please reconnect and register faster."
   kick-login-timeout: "&c&lConnection Timeout\n\n&7You took too long to login.\n&7Time limit: &c{time}&7.\n\n&7Please reconnect and login faster."
   kick-pin-timeout: "&c&lConnection Timeout\n\n&7You took too long to enter your PIN.\n&7Time limit: &c{time}&7.\n\n&7Please reconnect and enter your PIN faster."
-  
+
   unregister-success: "&aYou have been unregistered successfully!"
   unregister-wrong-password: "&cIncorrect password!"
   unregister-usage: "&cUsage: /unregister <password>"
   unregister-not-registered: "&cYou are not registered!"
   unregister-no-permission: "&cYou don't have permission to unregister!"
-  
+
   changepassword-success: "&aPassword changed successfully!"
   changepassword-wrong-password: "&cCurrent password is incorrect!"
   changepassword-usage: "&cUsage: /changepassword <current> <new>"
   changepassword-no-permission: "&cYou don't have permission to change password!"
   changepassword-same-password: "&cNew password cannot be the same as current!"
-  
+
   pin-set-success: "&aPIN has been set successfully!"
   pin-set-usage: "&cUsage: /setpin <pin>"
   pin-invalid-length: "&cPIN must be exactly {length} digits!"
@@ -193,7 +193,7 @@ messages:
   pin-no-permission: "&cYou don't have permission to set a PIN!"
   pin-verified: "&aPIN verified successfully!"
   pin-not-set: "&cYou don't have a PIN set!"
-  
+
   email-set-success: "&aEmail has been set! Check your inbox for verification code."
   email-set-usage: "&cUsage: /setemail <email>"
   email-invalid-format: "&cInvalid email format!"
@@ -202,7 +202,7 @@ messages:
   email-verify-wrong-code: "&cIncorrect verification code!"
   email-no-permission: "&cYou don't have permission to set an email!"
   email-already-verified: "&cYour email is already verified!"
-  
+
   admin-reload-success: "&aConfiguration reloaded successfully!"
   admin-no-permission: "&cYou don't have permission to do this!"
   admin-addadmin-success: "&a{player} has been added as admin!"
@@ -238,7 +238,7 @@ messages:
   admin-info-has-email: "&7Has Email: &e{status}"
   admin-info-last-login: "&7Last Login: &e{date}"
   admin-info-last-ip: "&7Last IP: &e{ip}"
-  
+
   not-authenticated: "&cYou must login first!"
   already-authenticated: "&cYou are already authenticated!"
   must-register: "&cYou must register first! Use /register <password> <password>"
@@ -246,7 +246,7 @@ messages:
   must-verify-pin: "&cYou must verify your PIN first!"
   command-blocked: "&cYou cannot use commands until you are authenticated!"
   action-blocked: "&cYou cannot do this until you are authenticated!"
-  
+
 gui:
   pin-title: "&8&lEnter Your PIN"
   pin-number-name: "&e&l{number}"
@@ -254,7 +254,7 @@ gui:
   pin-clear-name: "&c&lClear"
   pin-back-name: "&7&lBack"
   pin-current: "&7Current: &e{pin}"
-  
+
 admin-list: []
 
 permissions:

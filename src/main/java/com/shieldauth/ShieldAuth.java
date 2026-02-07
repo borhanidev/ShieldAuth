@@ -10,6 +10,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -39,26 +42,29 @@ public class ShieldAuth extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        
+
         configManager = new ConfigManager(this);
         configManager.loadConfig();
-        
+
         databaseManager = new DatabaseManager(this);
         databaseManager.initialize();
-        
+
         sessionManager = new SessionManager(this);
         pinManager = new PinManager(this);
         emailManager = new EmailManager(this);
         discordWebhook = new DiscordWebhook(this);
-        
+
         loadAdminList();
-        
+
         registerCommands();
         registerListeners();
-        
+
+        PacketManager packetManager = new PacketManager(this);
+        packetManager.registerListeners();
+
         updateChecker = new UpdateChecker(this);
         updateChecker.checkForUpdates();
-        
+
         Bukkit.getConsoleSender().sendMessage(configManager.getColoredMessage("messages.plugin-enabled"));
     }
 
@@ -73,7 +79,7 @@ public class ShieldAuth extends JavaPlugin {
 
     private void registerCommands() {
         EmptyTabCompleter emptyTab = new EmptyTabCompleter();
-        
+
         getCommand("register").setExecutor(new RegisterCommand(this));
         getCommand("register").setTabCompleter(emptyTab);
         getCommand("login").setExecutor(new LoginCommand(this));
@@ -198,15 +204,34 @@ public class ShieldAuth extends JavaPlugin {
     public void authenticatePlayer(Player player) {
         authenticatedPlayers.add(player.getUniqueId());
         loginAttempts.remove(player.getUniqueId());
+        if (isFullyAuthenticated(player)) {
+            removeAuthEffects(player);
+        }
     }
 
     public void verifyPin(Player player) {
         pinVerifiedPlayers.add(player.getUniqueId());
+        if (isFullyAuthenticated(player)) {
+            removeAuthEffects(player);
+        }
+    }
+
+    public void applyAuthEffects(Player player) {
+        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 1, false, false));
+    }
+
+    public void removeAuthEffects(Player player) {
+        player.removePotionEffect(PotionEffectType.BLINDNESS);
+        // Teleport to self to refresh the F3 coordinates and clear spoofing
+        player.teleport(player.getLocation());
     }
 
     public void deauthenticatePlayer(Player player) {
         authenticatedPlayers.remove(player.getUniqueId());
         pinVerifiedPlayers.remove(player.getUniqueId());
+        if (player.isOnline()) {
+            applyAuthEffects(player);
+        }
     }
 
     public boolean isLocked(Player player) {

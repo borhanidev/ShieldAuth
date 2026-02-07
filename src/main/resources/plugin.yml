@@ -3,6 +3,7 @@ version: 1.0.0
 main: com.shieldauth.ShieldAuth
 api-version: 1.16
 author: ShieldAuth
+depend: [ ProtocolLib ]
 description: Advanced authentication plugin with PIN, email verification and Discord integration
 softdepend:
   - LuckPerms

@@ -24,9 +24,10 @@ public class PlayerJoinListener implements Listener {
         boolean isRegistered = plugin.getDatabaseManager().isRegistered(player.getUniqueId());
         boolean hasPin = plugin.getDatabaseManager().hasPin(player.getUniqueId());
         boolean hasValidSession = plugin.getSessionManager().hasValidSession(player.getUniqueId(), ip);
-        
+
         final long joinTime = System.currentTimeMillis();
-        final boolean timeoutEnabled = plugin.getConfigManager().getConfig().getBoolean("security.auth-timeout-enabled", true);
+        final boolean timeoutEnabled = plugin.getConfigManager().getConfig().getBoolean("security.auth-timeout-enabled",
+                true);
         final int registerTimeout = plugin.getConfigManager().getConfig().getInt("security.register-timeout", 60);
         final int loginTimeout = plugin.getConfigManager().getConfig().getInt("security.login-timeout", 60);
         final int pinTimeout = plugin.getConfigManager().getConfig().getInt("security.pin-timeout", 30);
@@ -34,29 +35,34 @@ public class PlayerJoinListener implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (!player.isOnline()) return;
-                
+                if (!player.isOnline())
+                    return;
+
                 if (plugin.isIpLocked(ip)) {
                     long remaining = plugin.getRemainingIpLockTime(ip);
-                    player.sendMessage(plugin.getConfigManager().getPrefixedMessage("messages.ip-locked-join", "{time}", String.valueOf(remaining)));
+                    player.sendMessage(plugin.getConfigManager().getPrefixedMessage("messages.ip-locked-join", "{time}",
+                            String.valueOf(remaining)));
                 }
                 if (plugin.isIpPinLocked(ip)) {
                     long remaining = plugin.getRemainingIpPinLockTime(ip);
-                    player.sendMessage(plugin.getConfigManager().getPrefixedMessage("messages.ip-pin-locked-join", "{time}", String.valueOf(remaining)));
+                    player.sendMessage(plugin.getConfigManager().getPrefixedMessage("messages.ip-pin-locked-join",
+                            "{time}", String.valueOf(remaining)));
                 }
                 if (plugin.isLocked(player)) {
                     long remaining = plugin.getRemainingLockTime(player);
-                    player.sendMessage(plugin.getConfigManager().getPrefixedMessage("messages.account-locked-join", "{time}", String.valueOf(remaining)));
+                    player.sendMessage(plugin.getConfigManager().getPrefixedMessage("messages.account-locked-join",
+                            "{time}", String.valueOf(remaining)));
                 }
                 if (plugin.isPinLocked(player)) {
                     long remaining = plugin.getRemainingPinLockTime(player);
-                    player.sendMessage(plugin.getConfigManager().getPrefixedMessage("messages.pin-locked-join", "{time}", String.valueOf(remaining)));
+                    player.sendMessage(plugin.getConfigManager().getPrefixedMessage("messages.pin-locked-join",
+                            "{time}", String.valueOf(remaining)));
                 }
             }
         }.runTaskLater(plugin, 10L);
 
         boolean sessionEnabled = plugin.getConfigManager().getConfig().getBoolean("security.session-enabled", false);
-        
+
         if (sessionEnabled && isRegistered && hasValidSession && !hasPin) {
             plugin.authenticatePlayer(player);
             plugin.verifyPin(player);
@@ -65,10 +71,14 @@ public class PlayerJoinListener implements Listener {
             sendSuccessTitle(player);
             return;
         }
-        
+
         if (sessionEnabled && isRegistered && hasValidSession && hasPin) {
             plugin.authenticatePlayer(player);
             plugin.getDatabaseManager().updateLastLogin(player.getUniqueId(), ip);
+        }
+
+        if (!plugin.isFullyAuthenticated(player)) {
+            plugin.applyAuthEffects(player);
         }
 
         if (timeoutEnabled) {
@@ -90,14 +100,16 @@ public class PlayerJoinListener implements Listener {
                     boolean currentHasPin = plugin.getDatabaseManager().hasPin(player.getUniqueId());
 
                     if (!currentlyRegistered && elapsed >= registerTimeout) {
-                        String kickMsg = plugin.getConfigManager().getColoredMessage("messages.kick-register-timeout", "{time}", formatTime(registerTimeout));
+                        String kickMsg = plugin.getConfigManager().getColoredMessage("messages.kick-register-timeout",
+                                "{time}", formatTime(registerTimeout));
                         player.kickPlayer(kickMsg);
                         cancel();
                         return;
                     }
 
                     if (currentlyRegistered && !plugin.isAuthenticated(player) && elapsed >= loginTimeout) {
-                        String kickMsg = plugin.getConfigManager().getColoredMessage("messages.kick-login-timeout", "{time}", formatTime(loginTimeout));
+                        String kickMsg = plugin.getConfigManager().getColoredMessage("messages.kick-login-timeout",
+                                "{time}", formatTime(loginTimeout));
                         player.kickPlayer(kickMsg);
                         cancel();
                         return;
@@ -105,10 +117,12 @@ public class PlayerJoinListener implements Listener {
 
                     if (plugin.isAuthenticated(player) && currentHasPin && !plugin.isPinVerified(player)) {
                         long pinWaitTime = elapsed - loginTimeout;
-                        if (pinWaitTime < 0) pinWaitTime = elapsed;
-                        
+                        if (pinWaitTime < 0)
+                            pinWaitTime = elapsed;
+
                         if (elapsed >= (loginTimeout + pinTimeout)) {
-                            String kickMsg = plugin.getConfigManager().getColoredMessage("messages.kick-pin-timeout", "{time}", formatTime(pinTimeout));
+                            String kickMsg = plugin.getConfigManager().getColoredMessage("messages.kick-pin-timeout",
+                                    "{time}", formatTime(pinTimeout));
                             player.kickPlayer(kickMsg);
                             cancel();
                             return;
@@ -155,8 +169,9 @@ public class PlayerJoinListener implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (!player.isOnline()) return;
-                
+                if (!player.isOnline())
+                    return;
+
                 if (!isRegistered) {
                     sendRegisterTitle(player);
                 } else if (!plugin.isAuthenticated(player)) {
@@ -195,7 +210,7 @@ public class PlayerJoinListener implements Listener {
         int fadeOut = plugin.getConfigManager().getConfig().getInt("titles.pin.fade-out", 20);
         player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
     }
-    
+
     private void sendSuccessTitle(Player player) {
         String title = plugin.getConfigManager().getColoredMessage("titles.success.title");
         String subtitle = plugin.getConfigManager().getColoredMessage("titles.success.subtitle");
@@ -204,7 +219,7 @@ public class PlayerJoinListener implements Listener {
         int fadeOut = plugin.getConfigManager().getConfig().getInt("titles.success.fade-out", 20);
         player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
     }
-    
+
     private String formatTime(long seconds) {
         if (seconds >= 3600) {
             long hours = seconds / 3600;
